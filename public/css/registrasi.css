@@ -1,0 +1,23 @@
+table thead th {
+    text-align: center !important;
+    vertical-align: middle !important; 
+}
+
+.table thead {
+    background-color: #f8f9fa; 
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+table.table td.centered,
+table.table th.centered {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#select_isurisiko {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: none !important;
+}

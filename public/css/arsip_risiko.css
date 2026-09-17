@@ -1,0 +1,11 @@
+.dropdown-fixed {
+    width: 180px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.dropdown-fixed option {
+    white-space: normal; 
+}

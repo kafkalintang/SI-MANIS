@@ -1,0 +1,26 @@
+.navbar {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-menu {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item i {
+    margin-right: 8px;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+.dropdown-item {
+    cursor: pointer !important;
+}
