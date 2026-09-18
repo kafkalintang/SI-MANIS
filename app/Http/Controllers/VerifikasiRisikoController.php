@@ -10,6 +10,7 @@ class VerifikasiRisikoController extends Controller
     public function index(Request $request)
     {
         $unitKerja = \App\Models\UnitKerja::all();
+        $jenisRisiko = \App\Models\JenisRisiko::all();
 
         $registrasi = Registrasi::where('status_registrasi', 'Belum Terverifikasi')->whereNull('komentar');
 
@@ -17,9 +18,13 @@ class VerifikasiRisikoController extends Controller
             $registrasi = $registrasi->where('unit_kerja_id', $request->unit_kerja_id);
         }
 
+        if ($request->filled('jenis_risiko_id')) {
+            $registrasi = $registrasi->where('jenis_risiko_id', $request->jenis_risiko_id);
+        }
+
         $registrasi = $registrasi->get();
 
-        return view('pages.verifikasi_risiko', compact('registrasi', 'unitKerja'));
+        return view('pages.verifikasi_risiko', compact('registrasi', 'unitKerja', 'jenisRisiko'));
     }
 
 

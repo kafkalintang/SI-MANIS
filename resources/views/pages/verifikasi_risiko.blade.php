@@ -25,6 +25,16 @@
                 @endforeach
             </select>
 
+            <select name="jenis_risiko_id" id="jenis_risiko" class="form-select w-auto dropdown-fixed">
+                <option value="">Pilih Jenis Risiko</option>
+                @foreach ($jenisRisiko as $jr)
+                    <option value="{{ $jr->id }}"
+                        {{ request('jenis_risiko_id') == $jr->id ? 'selected' : '' }}>
+                        {{ $jr->nama_jenis }}
+                    </option>
+                @endforeach
+            </select>
+
             <button id="btnSearch" class="btn btn-primary btn-sm btn-search ms-2" style="height: 35px; padding: 0 15px;">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
