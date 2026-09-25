@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Registrasi;
 use App\Models\UnitKerja;
 use App\Models\JenisRisiko;
+use App\Models\KategoriRisiko;
 use App\Models\Mitigasi;
 use App\Models\Evaluasi;
 use App\Models\Penilaian;
@@ -16,6 +17,7 @@ class PenilaianController extends Controller
     {
         $user = Auth::user();
         $jenisRisiko = JenisRisiko::all();
+        $kategoriRisiko = KategoriRisiko::all();
 
         // Status role
         $isAuditor = str_contains(strtolower($user->role), 'auditor');
@@ -60,6 +62,10 @@ class PenilaianController extends Controller
             $query->where('jenis_risiko_id', $request->jenis_risiko_id);
         }
 
+        if ($request->kategori_risiko_id) {
+            $query->where('kategori_risiko_id', $request->kategori_risiko_id);
+        }
+
         if ($request->tahun) {
             $query->whereHas('mitigasis.evaluasis', function ($q) use ($request) {
                 $q->where('tahun', $request->tahun);
@@ -92,10 +98,12 @@ class PenilaianController extends Controller
             'registrasis' => $registrasis,
             'unitKerja' => $unitKerja,
             'jenisRisiko' => $jenisRisiko,
+            'kategoriRisiko' => $kategoriRisiko,
             'tahunList' => $tahunList,
             'unitDipilih' => $request->unit_kerja_id,
             'tahunDipilih' => $request->tahun,
             'jenisRisikoDipilih' => $request->jenis_risiko_id,
+            'kategoriRisikoDipilih' => $request->kategori_risiko_id,
         ]);
     }
     public function store(Request $request)

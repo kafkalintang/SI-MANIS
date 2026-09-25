@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UnitKerja;
 use App\Models\JenisRisiko;
+use App\Models\KategoriRisiko;
 use App\Models\Registrasi;
 use App\Models\Evaluasi;
 use Maatwebsite\Excel\Facades\Excel;
@@ -17,6 +18,7 @@ class ArsipRisikoController extends Controller
         // Ambil semua unit kerja dari tabel untuk dropdown
         $unitKerja = UnitKerja::all();
         $jenisRisiko = JenisRisiko::all();
+        $kategoriRisiko = KategoriRisiko::all();
 
         // Ambil semua tahun unik dari tabel mitigasi untuk dropdown
         $tahunList = Evaluasi::select('tahun')
@@ -45,6 +47,10 @@ class ArsipRisikoController extends Controller
 
         if ($request->filled('jenis_risiko_id')) {
             $registrasi->where('jenis_risiko_id', $request->jenis_risiko_id);
+        }
+
+        if ($request->filled('kategori_risiko_id')) {
+            $registrasi->where('kategori_risiko_id', $request->kategori_risiko_id);
         }
 
         $registrasi = $registrasi->get();
@@ -85,7 +91,7 @@ class ArsipRisikoController extends Controller
         }
 
         // Kirim data ke view
-        return view('pages.arsip_risiko', compact('unitKerja', 'tahunList', 'registrasi', 'jenisRisiko'));
+        return view('pages.arsip_risiko', compact('unitKerja', 'tahunList', 'registrasi', 'jenisRisiko', 'kategoriRisiko'));
     }
 
     public function export(Request $request)
@@ -105,6 +111,10 @@ class ArsipRisikoController extends Controller
 
         if ($request->filled('unit_kerja_id')) {
             $registrasi->where('unit_kerja_id', $request->unit_kerja_id);
+        }
+
+        if ($request->filled('kategori_risiko_id')) {
+            $registrasi->where('kategori_risiko_id', $request->kategori_risiko_id);
         }
 
         $registrasi = $registrasi->get()->filter(function ($item) {

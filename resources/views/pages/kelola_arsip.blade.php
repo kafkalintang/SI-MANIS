@@ -37,6 +37,16 @@
                 @endforeach
             </select>
 
+            {{-- Dropdown Kategori Risiko --}}
+            <select name="kategori_risiko_id" id="kategori_risiko" class="form-select w-auto dropdown-fixed">
+                <option value="">Kategori Risiko</option>
+                @foreach($kategoriRisiko as $kr)
+                    <option value="{{ $kr->id }}" {{ request('kategori_risiko_id') == $kr->id ? 'selected' : '' }}>
+                        {{ $kr->nama_kategori }}
+                    </option>
+                @endforeach
+            </select>
+
             {{-- Dropdown Tahun --}}
             <select name="tahun" id="tahun" class="form-select w-auto dropdown-fixed">
                 <option value="">Tahun</option>
