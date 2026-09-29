@@ -18,12 +18,37 @@ class RegistrasiController extends Controller
 {
     public function index()
     {
-        $userId = auth()->id(); // ambil id user yang sedang login
+        $userId = Auth::id(); // ambil id user yang sedang login
         $userUnit = Auth::user()->unit_kerja_id;
 
-        $registrasi = Registrasi::with(['unitKerja', 'prosesAktivitas', 'kategoriRisiko', 'jenisRisiko', 'ikuterkait'])
+        $registrasi = Registrasi::with(['unitKerja', 'prosesAktivitas', 'kategoriRisiko', 'jenisRisiko', 'ikuTerkait', 'mitigasis.evaluasis', 'mitigasis.evaluasis.penilaian'])
             ->where('user_id', $userId) // filter berdasarkan user
-            ->get();
+            ->get()
+            ->filter(function ($registrasi) {
+
+            // Ambil seluruh evaluasi dari semua mitigasi
+            $evaluasis = $registrasi->mitigasis
+                ->flatMap(function ($mitigasi) {
+                    return $mitigasi->evaluasis;
+                });
+
+            // Kalau belum ada evaluasi, tetap tampil
+            if ($evaluasis->isEmpty()) {
+                return true;
+            }
+
+            // Ambil evaluasi terakhir berdasarkan tahun + triwulan
+            $evaluasiTerakhir = $evaluasis
+                ->sortByDesc(function ($evaluasi) {
+                    return (($evaluasi->tahun ?? 0) * 10)
+                        + ($evaluasi->triwulan ?? 0);
+                })
+                ->first();
+
+            // Kalau evaluasi terakhir CLOSED, jangan tampil di halaman ini
+            return $evaluasiTerakhir->status_pelaksanaan !== 'closed';
+        })
+        ->values();
 
         // Ambil data dropdown untuk form tambah/edit
         $unitKerja = UnitKerja::all();
